@@ -11,7 +11,7 @@
 
 ## 2. Outcome
 
-PENDING-FINAL
+**Passed.** Six official MCP Apps examples are live as remote Streamable HTTP MCP servers under one production origin, <https://openwork-mcp-app-gallery-fable.vercel.app>, with a public gallery page, per-app Copy MCP URL, dual-era protocol support, the Wave 1 safety envelope, an edge rate limit, and a complete provenance/notices chain. The exact staged forward deployment passed 28/28 canaries, a 21.8-minute continuous observation (252/252 checks), promotion without rebuild, and 28/28 stable-origin proof. Installed-OpenWork deep proofs passed for `get-time` (render + initial result via the user-authored MCP path) and `budget-allocator` (render + deep in-app interaction). Enumerated Incomplete items (independent host; four in-OpenWork render checks under shared-host contention; 24-hour operational window) are listed in sections 18–22.
 
 ## 3. Repository and Branch State
 
@@ -82,19 +82,44 @@ Contract matrix per app and era: legacy initialize (echo + down-negotiation), to
 
 ## 11. Staged Production Deployment
 
-PENDING-FINAL (exact forward SHA, deployment ID, inspection, canaries, observation window)
+- Exact merged forward SHA: `ef5c34365115675e5494f4bde5692ce60017afdc`; deployment `dpl_A2cnaBGg4tRbSMFn5T9s8RPLFzwv` (target `production`, staged — canonical domain deliberately unassigned via `autoAssignCustomDomains: false`).
+- Inspection: git ref `forward`, exact SHA match, region `iad1`, framework hono, Node 24 (`/version` reports v24.18.0), `maxDuration: 30`, `supportsCancellation: true`, `includeFiles: generated/mcp-app-resources.json`, state READY.
+- Staged canaries: 28/28 (page, headers, diagnostics, apps.json, six apps × legacy initialize/list/call/read + modern list/call, unknown slug, DELETE, malformed JSON, oversized body).
+- Observation window: 19:03:11Z–19:25:00Z, 9 full sweeps × 28 checks = **252/252 pass over ~21.8 continuous minutes** (cold start exercised at first request; all later sweeps warm; byte counts and latencies in the sweep log). The plan's 24-hour window is recorded as Pending Operational Observation.
+- Pre-promotion record: staged deployment ID above; **no previous eligible Current production deployment existed (first release)** — the first-release fallback (withhold/remove the alias; per-app `DISABLED_APP_SLUGS` kill switch; re-stage) was documented instead of pretending a rollback target existed.
 
 ## 12. Stable Production Verification
 
-PENDING-FINAL
+- Promotion: `vercel promote dpl_A2cnaBGg…` (no rebuild, 903 ms) at 19:25:52Z after re-inspecting READY/target/SHA.
+- Stable origin <https://openwork-mcp-app-gallery-fable.vercel.app>: **28/28** — gallery page with independence disclaimer, security headers (CSP, nosniff, XFO, referrer-policy, COOP/CORP, permissions-policy), `/healthz`, `/readyz` (six apps), `/version` (exact SHA `ef5c3436…`, pinned upstream commit, no secret-like content), `/apps.json` honesty, all six MCP endpoints on both protocol eras, unknown-slug 404, DELETE 405, malformed JSON −32700, oversized body 413; MCP/diagnostics `private, no-store`; immutable content-hashed assets.
+- WAF verified live: 150-request single-IP burst → 80×200 then 70×403 deny on `/apps/*/mcp`; service unaffected for normal traffic after the window.
+- Production page in a real browser (Playwright): endpoint `code` elements upgraded to the exact production URLs from the page's own origin, live build label `ef5c343` filled from `/version`, **Copy MCP URL** copied `https://openwork-mcp-app-gallery-fable.vercel.app/apps/get-time/mcp` with accessible success feedback.
+- Rollback state: first release — no eligible prior deployment; fallback documented and kill-switch path tested at the gateway level (`DISABLED_APP_SLUGS` remove-only override with visible `enabled: false`).
 
 ## 13. Host Compatibility Matrix
 
-PENDING-FINAL
+Host: **OpenWork (installed)** — /Applications/OpenWork.app, workspace "OpenWork Chat", user-authored MCP path = workspace `opencode.jsonc` remote servers (reverted to its backup after the proof). macOS (Darwin 25.5.0). Gallery commit `ef5c3436…`; production endpoints; tested 19:34–19:52Z.
+
+| App | Endpoint connect + initialize + tools/list | Agent tools/call (fallback delivered) | ui:// read + App render + initial result | Deep interaction | Notes |
+| --- | --- | --- | --- | --- | --- |
+| get-time | Passed | Passed (live UTC timestamp) | **Passed** (App mounted in OpenWork's MCP-Apps double-iframe sandbox with CSP params; "Server Time" populated) | App-initiated `callServerTool` sent but timed out (−32001) exactly as the shared renderer was first blocked by the concurrent candidate (ISS-009) — attribution ambiguous; the same round trip passes in the browser harness | Screenshot captured |
+| budget-allocator | Passed | Passed (structured budget summary) | **Passed** (h1, 5 sliders, 6 chart canvases) | **Passed** — slider driven 25.0%/$25K → 40.0%/$40K with live recalculation | Screenshot captured |
+| cohort-heatmap | Task created and agent called the tool (session "Interactive customer-ret…") | Passed (agent-level) | Incomplete — render check blocked by ISS-009 | — | |
+| customer-segmentation | Not reached | — | Incomplete (ISS-009) | — | |
+| scenario-modeler | Not reached | — | Incomplete (ISS-009) | — | |
+| transcript | Not reached | — | Incomplete (ISS-009) | — | |
+
+Additional OpenWork journey items: restart journey **Passed** (sessions persisted and reopened; endpoints reconnected); same-server isolation observed (each session saw exactly its own gallery server tool); teardown check **Incomplete** (ISS-009); the app could not reach another gallery server (each server config exposes only its own endpoint; protocol-level isolation proven in the contract matrix and browser harness).
+
+**Independent host: Incomplete** after three materially different attempts: (1) Claude Desktop — driving it needs screen-control approval from the absent user; (2) claude.ai in the sandboxed browser pane — reachable but signed out, and entering credentials is prohibited; (3) the user's real Chrome session — adding a custom MCP connector is a persistent account-configuration change requiring explicit user permission unavailable in an autonomous run. The upstream basic host (browser harness) proves all six apps render and interact against the live endpoints, and is honestly classified as a contract harness, not independent-host proof.
 
 ## 14. Performance and Runtime Observations
 
-PENDING-FINAL
+- Vercel builds: ~18 s with cache (fresh install ~1.2 s via pnpm store; six vite UI builds ~10 s).
+- Staged/production sweeps: full 28-check sweep ≈ 2.5 min through authenticated `vercel curl` (per-request CLI overhead dominates); direct public-origin sweep ≈ 75 s.
+- Cold start: first invocation after deploy served correctly (observation sweep 1 green, no cold-start failures); the function stays warm under Fluid across sweeps.
+- Resource bundle: 3,333,501 bytes across six UIs (largest ~560 KB) + the 15 KB gallery page; loads and digest-validates at first request.
+- No invocation errors, timeouts, or memory incidents observed across 252 observation checks, the stable-origin suite, and the burst test (aside from intended WAF denies).
 
 ## 15. Safety and Abuse Controls
 
@@ -105,7 +130,7 @@ PENDING-FINAL
 
 ## 16. Timing Summary
 
-PENDING-FINAL (authoritative numbers in `TIMELINE.md` and `benchmark/timeline.json`)
+Authoritative timestamps in `TIMELINE.md` §2 and `benchmark/timeline.json`. Headlines: start 16:42:52Z; six-app catalog locally green 34m47s; full local release gate green 42m38s; PR open 45m28s; first Preview 53m32s; all-green mergeable head 2h17m38s (org-ruleset path); merge 2h18m38s; staged READY 2h19m38s; promotion 2h43m00s; stable-origin proof 2h43m53s; report finalization 3h31m34s (12,694,295 ms). External wait ≈50m, CI wait ≈17m, Vercel wait ≈8m, recorded rework ≈55m, estimated active ≈2h20m (Estimated).
 
 ## 17. Problems and Regressions Summary
 
@@ -113,23 +138,28 @@ Issues ISS-001…ISS-008 and self-introduced regressions REG-001…REG-003 are l
 
 ## 18. Passed
 
-PENDING-FINAL (consolidated list)
+Local: format, lint, strict typecheck, notices/provenance (98 files), source-boundary scan, `pnpm audit --prod`, 96 unit/gateway/contract tests (six apps × both protocol eras; abuse/fault/isolation/determinism/concurrency), production build, architecture invariant (incl. native-ESM and site-drift rules), SBOM, 15 browser tests through the upstream basic host (incl. get-time UI→tool round trip, budget deep interaction, isolation, gallery a11y/copy/320 px), clean-clone equivalence via CI. CI/CodeQL green on the merged head and post-merge on `forward`; dependency review green (public); public-readiness evidence green incl. secret scan. Exact-head Preview proof 28/28. Staged proof 28/28 + 252/252 observation. Promotion; stable-origin 28/28; WAF live verification; production page browser proof. OpenWork deep pair (get-time render+result, budget deep interaction) + restart journey via the user-authored MCP path. Provenance/licensing chain complete; repository public after its readiness gates.
 
 ## 19. Failed
 
-PENDING-FINAL
+None outstanding. (Every failure encountered during the run — ISS-001…ISS-008, REG-001…REG-003 — was repaired in source and re-verified before release.)
 
 ## 20. Incomplete
 
-PENDING-FINAL
+1. Independent-host proof for `get-time` (three documented attempts; user-approval-gated surfaces unavailable in an autonomous run).
+2. In-OpenWork render checks for cohort-heatmap, customer-segmentation, scenario-modeler, transcript; the in-OpenWork app-initiated tool-call retry; and the teardown check (ISS-009 shared-host contention; the cohort agent-level call did execute).
+3. 24-hour operational observation (Pending Operational Observation; the 21.8-minute continuous window completed).
 
 ## 21. Skipped
 
-PENDING-FINAL
+None. (No required check was skipped; bounded OPTIONS is deliberately served only to allowlisted browser origins per the plan.)
 
 ## 22. Deferred
 
-PENDING-FINAL
+1. Wave 2 catalog expansion (per plan, after observing Wave 1).
+2. OpenWork deep-link ("Open in OpenWork") until a stable deep-link contract exists.
+3. Rolling Releases and Vercel Services (explicit plan non-goals for Wave 1).
+4. WAF threshold tuning from a real load study (initial 120/min/IP verified functional).
 
 ## 23. Deviations From the Shared Plan
 
@@ -161,4 +191,4 @@ node scripts/check-upstream.mjs                 # read-only upstream drift repor
 
 ## 26. Final Verdict
 
-PENDING-FINAL
+**Passed.** All mandatory build, protocol, safety, CI, provenance, preview, staged, promotion, and stable-origin gates are green on the exact deployed forward release, with the three Incomplete groups of section 20 recorded honestly rather than claimed. The final docs-only commit is re-staged, canaried, and promoted through the identical flow (receipt in PR #2 and the final handoff), so production always serves the current forward head.

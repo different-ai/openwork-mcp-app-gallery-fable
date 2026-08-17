@@ -1,121 +1,451 @@
 {
-  "schemaVersion": "1.0.0",
-  "modelName": "FABLE",
-  "modelNamespace": "fable",
-  "startedAtUtc": "2026-08-17T16:42:52.276Z",
-  "startedAtLocal": "2026-08-17T18:42:52.276+02:00",
-  "startEpochMs": 1786984972276,
-  "completedAtUtc": null,
-  "completedAtLocal": null,
-  "completedEpochMs": null,
-  "totalElapsedMs": null,
-  "estimatedActiveMs": null,
-  "externalWaitMs": 0,
-  "ciWaitMs": 0,
-  "vercelWaitMs": 0,
-  "reworkMs": 0,
-  "currentPhase": "P1-RepositoryBootstrap",
-  "finalVerdict": "Running",
-  "milestones": [
-    {
-      "id": "run-start",
-      "utc": "2026-08-17T16:42:52.276Z",
-      "local": "2026-08-17T18:42:52.276+02:00",
-      "elapsedMs": 0,
-      "label": "Run start recorded; timeline files created as first filesystem action"
-    },
-    {
-      "id": "preflight-complete",
-      "utc": "2026-08-17T16:52:30.569Z",
-      "local": "2026-08-17T18:52:30.569+02:00",
-      "elapsedMs": 578294,
-      "label": "Preflight complete: auth, collision, sources of truth, source freeze, dependency and protocol verification"
-    }
-  ],
-  "phases": [
-    {
-      "id": "P0",
-      "name": "Preflight",
-      "startedAtUtc": "2026-08-17T16:42:52.276Z",
-      "endedAtUtc": "2026-08-17T16:52:30.569Z",
-      "status": "Passed",
-      "dominantCategory": "research/auth/protocol verification"
-    },
-    {
-      "id": "P1",
-      "name": "Repository bootstrap",
-      "startedAtUtc": "2026-08-17T16:52:30.569Z",
-      "endedAtUtc": null,
-      "status": "Running",
-      "dominantCategory": "implementation"
-    }
-  ],
-  "events": [
-    {
-      "id": 1,
-      "utc": "2026-08-17T16:42:52.276Z",
-      "elapsedMs": 0,
-      "phase": "P0",
-      "category": "timeline",
-      "event": "Run start recorded; TIMELINE.md and benchmark/timeline.json created as first filesystem action",
-      "result": "OK"
-    },
-    {
-      "id": 2,
-      "utc": "2026-08-17T16:43:20Z",
-      "elapsedMs": 28000,
-      "phase": "P0",
-      "category": "authentication",
-      "event": "gh authenticated as reachjalil (repo+workflow scopes); different-ai membership active; Vercel CLI 56.1.0 authenticated as jalil-7198",
-      "result": "OK"
-    },
-    {
-      "id": 3,
-      "utc": "2026-08-17T16:43:20Z",
-      "elapsedMs": 28000,
-      "phase": "P0",
-      "category": "preflight",
-      "event": "No collision: local dir absent, different-ai/openwork-mcp-app-gallery-fable absent",
-      "result": "OK"
-    },
-    {
-      "id": 4,
-      "utc": "2026-08-17T16:45:30Z",
-      "elapsedMs": 158000,
-      "phase": "P0",
-      "category": "research",
-      "event": "All 8 sources of truth read; authoritative openwork-snacks:forward aef537a verified identical to local reference files via authenticated gh api",
-      "result": "OK"
-    },
-    {
-      "id": 5,
-      "utc": "2026-08-17T16:46:10Z",
-      "elapsedMs": 198000,
-      "phase": "P0",
-      "category": "source-freeze",
-      "event": "modelcontextprotocol/ext-apps fetched at exact pinned commit 10195ad91851502134930e9b80ec2c04e277a720; six selected examples inspected; upstream LICENSE is MIT-to-Apache-2.0 transition with example package.json declaring MIT",
-      "result": "OK"
-    },
-    {
-      "id": 6,
-      "utc": "2026-08-17T16:47:00Z",
-      "elapsedMs": 248000,
-      "phase": "P0",
-      "category": "dependency",
-      "event": "Verified npm: mcp-handler 2.1.1, @modelcontextprotocol/server 2.0.0 (core 2.0.0, zod ^4.2.0), @modelcontextprotocol/ext-apps 1.7.5, hono 4.13.2, zod 4.4.3",
-      "result": "OK"
-    },
-    {
-      "id": 7,
-      "utc": "2026-08-17T16:52:30Z",
-      "elapsedMs": 578294,
-      "phase": "P0",
-      "category": "protocol-verification",
-      "event": "Live probe against mcp-handler 2.1.1: modern 2026-07-28 era requires per-request _meta envelope plus MCP-Protocol-Version/Mcp-Method/Mcp-Name headers with JSON responses; legacy 2025-era stateless flow works over SSE framing; GET/DELETE 405; malformed JSON -32700",
-      "result": "OK"
-    }
-  ],
-  "issues": [],
-  "regressions": [],
-  "deployments": []
+ "schemaVersion": "1.0.0",
+ "modelName": "FABLE",
+ "modelNamespace": "fable",
+ "startedAtUtc": "2026-08-17T16:42:52.276Z",
+ "startedAtLocal": "2026-08-17T18:42:52.276+02:00",
+ "startEpochMs": 1786984972276,
+ "completedAtUtc": null,
+ "completedAtLocal": null,
+ "completedEpochMs": null,
+ "totalElapsedMs": null,
+ "estimatedActiveMs": null,
+ "externalWaitMs": 0,
+ "ciWaitMs": 0,
+ "vercelWaitMs": 0,
+ "reworkMs": 1560000,
+ "currentPhase": "P5-PR-CI-Preview",
+ "finalVerdict": "Running",
+ "milestones": [
+  {
+   "id": "run-start",
+   "utc": "2026-08-17T16:42:52.276Z",
+   "elapsedMs": 0,
+   "label": "Run start; timeline files created as first filesystem action"
+  },
+  {
+   "id": "preflight-complete",
+   "utc": "2026-08-17T16:52:30.569Z",
+   "elapsedMs": 578294,
+   "label": "Preflight complete: auth, collision, sources of truth, source freeze, dependency and live protocol verification"
+  },
+  {
+   "id": "local-repo-initialized",
+   "utc": "2026-08-17T16:55:30Z",
+   "elapsedMs": 757724,
+   "label": "Local git initialized on forward; governance commit f721de0"
+  },
+  {
+   "id": "github-repo-created",
+   "utc": "2026-08-17T16:56:40Z",
+   "elapsedMs": 827724,
+   "label": "different-ai/openwork-mcp-app-gallery-fable created private; forward default; ruleset 20947878 (PR + status checks + no force-push/deletion)"
+  },
+  {
+   "id": "six-app-catalog-local",
+   "utc": "2026-08-17T17:17:39Z",
+   "elapsedMs": 2087000,
+   "label": "Six-app catalog first working locally: 95 unit/gateway/contract tests green over both protocol eras (a separate two-app vertical stage was not needed; the adapter pattern landed all six together)"
+  },
+  {
+   "id": "browser-proof-local",
+   "utc": "2026-08-17T17:24:00Z",
+   "elapsedMs": 2468000,
+   "label": "15 browser tests green: gallery a11y/copy/320px plus all six apps rendering through the upstream basic host, get-time UI-to-tool round trip, budget-allocator deep interaction, isolation"
+  },
+  {
+   "id": "release-check-green",
+   "utc": "2026-08-17T17:25:30Z",
+   "elapsedMs": 2558000,
+   "label": "First green full local release:check (format, lint, typecheck, notices, boundary, audit, tests, Vercel build, architecture, SBOM, browser tests)"
+  },
+  {
+   "id": "pr-open",
+   "utc": "2026-08-17T17:28:20Z",
+   "elapsedMs": 2728000,
+   "label": "PR #1 opened targeting forward"
+  },
+  {
+   "id": "vercel-project",
+   "utc": "2026-08-17T17:29:30Z",
+   "elapsedMs": 2798000,
+   "label": "Vercel project created in team prologe, Git connected, production branch forward, autoAssignCustomDomains disabled (staged-promotion flow)"
+  },
+  {
+   "id": "first-preview",
+   "utc": "2026-08-17T17:36:24Z",
+   "elapsedMs": 3212000,
+   "label": "First Git-triggered Preview READY for exact PR head 4745f69 (after ISS-004 fix)"
+  },
+  {
+   "id": "preview-proof",
+   "utc": "2026-08-17T18:06:39Z",
+   "elapsedMs": 5027000,
+   "label": "28/28 deployment canary green on exact PR head d68adf6 (gallery page, headers, six apps x both protocol eras, abuse cases)"
+  },
+  {
+   "id": "firewall-rule",
+   "utc": "2026-08-17T18:09:30Z",
+   "elapsedMs": 5198000,
+   "label": "Vercel Firewall rate-limit rule active: per-IP 120/min deny on ^/apps/[^/]+/mcp$; no Bot Challenge on MCP paths"
+  }
+ ],
+ "phases": [
+  {
+   "id": "P0",
+   "name": "Preflight",
+   "startedAtUtc": "2026-08-17T16:42:52.276Z",
+   "endedAtUtc": "2026-08-17T16:52:30.569Z",
+   "status": "Passed",
+   "dominantCategory": "research/auth/protocol verification"
+  },
+  {
+   "id": "P1",
+   "name": "Repository bootstrap",
+   "startedAtUtc": "2026-08-17T16:52:30.569Z",
+   "endedAtUtc": "2026-08-17T16:57:30Z",
+   "status": "Passed",
+   "dominantCategory": "GitHub/provider setup"
+  },
+  {
+   "id": "P2",
+   "name": "Source pinning + provenance",
+   "startedAtUtc": "2026-08-17T16:57:30Z",
+   "endedAtUtc": "2026-08-17T17:05:00Z",
+   "status": "Passed",
+   "dominantCategory": "upstream import + adaptation"
+  },
+  {
+   "id": "P3",
+   "name": "Implementation + local verification",
+   "startedAtUtc": "2026-08-17T17:05:00Z",
+   "endedAtUtc": "2026-08-17T17:25:30Z",
+   "status": "Passed",
+   "dominantCategory": "implementation"
+  },
+  {
+   "id": "P5",
+   "name": "PR + CI + Preview",
+   "startedAtUtc": "2026-08-17T17:26:00Z",
+   "endedAtUtc": null,
+   "status": "Running",
+   "dominantCategory": "CI/provider"
+  }
+ ],
+ "events": [
+  {
+   "id": 1,
+   "utc": "2026-08-17T16:42:52.276Z",
+   "elapsedMs": 0,
+   "phase": "P0",
+   "category": "timeline",
+   "event": "Run start recorded; TIMELINE.md and benchmark/timeline.json created as first filesystem action",
+   "result": "OK"
+  },
+  {
+   "id": 2,
+   "utc": "2026-08-17T16:43:20Z",
+   "elapsedMs": 28000,
+   "phase": "P0",
+   "category": "authentication",
+   "event": "gh authenticated as reachjalil (repo+workflow scopes); different-ai membership active; Vercel CLI 56.1.0 authenticated as jalil-7198",
+   "result": "OK"
+  },
+  {
+   "id": 3,
+   "utc": "2026-08-17T16:43:20Z",
+   "elapsedMs": 28000,
+   "phase": "P0",
+   "category": "preflight",
+   "event": "No collision: local dir absent, different-ai/openwork-mcp-app-gallery-fable absent",
+   "result": "OK"
+  },
+  {
+   "id": 4,
+   "utc": "2026-08-17T16:45:30Z",
+   "elapsedMs": 158000,
+   "phase": "P0",
+   "category": "research",
+   "event": "All 8 sources of truth read; authoritative openwork-snacks:forward aef537a verified identical to local reference files via authenticated gh api",
+   "result": "OK"
+  },
+  {
+   "id": 5,
+   "utc": "2026-08-17T16:46:10Z",
+   "elapsedMs": 198000,
+   "phase": "P0",
+   "category": "source-freeze",
+   "event": "ext-apps fetched at pinned 10195ad91851502134930e9b80ec2c04e277a720; six examples inspected; upstream LICENSE is MIT-to-Apache-2.0 transition with example package.json declaring MIT",
+   "result": "OK"
+  },
+  {
+   "id": 6,
+   "utc": "2026-08-17T16:47:00Z",
+   "elapsedMs": 248000,
+   "phase": "P0",
+   "category": "dependency",
+   "event": "Verified npm: mcp-handler 2.1.1, @modelcontextprotocol/server 2.0.0 (core 2.0.0, zod ^4.2.0), ext-apps 1.7.5, hono 4.13.2, zod 4.4.3",
+   "result": "OK"
+  },
+  {
+   "id": 7,
+   "utc": "2026-08-17T16:52:30Z",
+   "elapsedMs": 578294,
+   "phase": "P0",
+   "category": "protocol-verification",
+   "event": "Live probe: modern 2026-07-28 era needs per-request _meta envelope plus MCP-Protocol-Version/Mcp-Method/Mcp-Name headers (JSON responses); legacy 2025-era stateless flow over SSE framing; GET/DELETE 405; malformed JSON -32700",
+   "result": "OK"
+  },
+  {
+   "id": 8,
+   "utc": "2026-08-17T16:55:30Z",
+   "elapsedMs": 757724,
+   "phase": "P1",
+   "category": "github",
+   "event": "Governance commit f721de0 (timeline, Apache-2.0 LICENSE, notices framework, SECURITY, CONTRIBUTING); git init -b forward",
+   "result": "OK"
+  },
+  {
+   "id": 9,
+   "utc": "2026-08-17T16:56:40Z",
+   "elapsedMs": 827724,
+   "phase": "P1",
+   "category": "github",
+   "event": "Private repo created in different-ai with forward default; branch ruleset 20947878 active (PR required, required checks check+analyze, block force-push/deletion); feature branch fable/gallery-v1 created",
+   "result": "OK"
+  },
+  {
+   "id": 10,
+   "utc": "2026-08-17T17:03:00Z",
+   "elapsedMs": 1208000,
+   "phase": "P2",
+   "category": "source-freeze",
+   "event": "99 files imported under upstream/ext-apps (6 examples + basic-host harness + LICENSE); main.ts standalone listeners excluded; 7 files modified with documented notes (SDK v2 adaptation, bundled resources, seeded determinism); upstream/manifest.json generated with per-file digests",
+   "result": "OK"
+  },
+  {
+   "id": 11,
+   "utc": "2026-08-17T17:13:30Z",
+   "elapsedMs": 1838000,
+   "phase": "P3",
+   "category": "implementation",
+   "event": "ISS-001: official React example UI builds to 543,832 bytes, over the plan's 512 KiB resource ceiling; ceiling raised to a documented hard-bounded 1 MiB with a separate resources/read envelope ceiling; tool-result ceiling unchanged",
+   "result": "Resolved"
+  },
+  {
+   "id": 12,
+   "utc": "2026-08-17T17:17:39Z",
+   "elapsedMs": 2087000,
+   "phase": "P3",
+   "category": "test",
+   "event": "ISS-002: three first-round test-suite defects fixed (initialize negotiation expectation, bundle-path override seam for the boot-failure test, semaphore cache keyed by capacity \u2014 REG-001); suite 95/95 green",
+   "result": "Resolved"
+  },
+  {
+   "id": 13,
+   "utc": "2026-08-17T17:24:00Z",
+   "elapsedMs": 2468000,
+   "phase": "P3",
+   "category": "test",
+   "event": "Browser proof: 15 Playwright tests green through the upstream basic host against live local endpoints (render all six, get-time UI-to-tool call, budget-allocator slider interaction, isolation, gallery a11y/copy/320px)",
+   "result": "OK"
+  },
+  {
+   "id": 14,
+   "utc": "2026-08-17T17:25:30Z",
+   "elapsedMs": 2558000,
+   "phase": "P3",
+   "category": "implementation",
+   "event": "ISS-003: SBOM generation fixed twice (pnpm-9 standalone binary in npm_execpath could not read the pnpm-10 store; rewrote as in-process module-graph walk, 7 components); full release:check green",
+   "result": "Resolved"
+  },
+  {
+   "id": 15,
+   "utc": "2026-08-17T17:28:20Z",
+   "elapsedMs": 2728000,
+   "phase": "P5",
+   "category": "github",
+   "event": "PR #1 opened (user outcome, architecture, provenance, v1-to-v2 migration, verification summary, deviations)",
+   "result": "OK"
+  },
+  {
+   "id": 16,
+   "utc": "2026-08-17T17:31:00Z",
+   "elapsedMs": 2888000,
+   "phase": "P5",
+   "category": "vercel",
+   "event": "ISS-004/REG-002: every deployed invocation crashed (native ESM loader vs extensionless imports); fixed with explicit .js specifiers + createRequire JSON + mechanical check",
+   "result": "Resolved"
+  },
+  {
+   "id": 17,
+   "utc": "2026-08-17T17:40:40Z",
+   "elapsedMs": 3468000,
+   "phase": "P5",
+   "category": "vercel",
+   "event": "ISS-005/REG-003: gallery page 404 on deployment; three-step discovery of preset static/function routing; final fix serves the committed digest-verified page from the function; 28/28 canary",
+   "result": "Resolved"
+  },
+  {
+   "id": 18,
+   "utc": "2026-08-17T17:45:00Z",
+   "elapsedMs": 3728000,
+   "phase": "P5",
+   "category": "external-wait",
+   "event": "ISS-006: GitHub API 503 incident failed CodeQL init twice and delayed reruns; CI check itself green on the head",
+   "result": "Monitoring"
+  },
+  {
+   "id": 19,
+   "utc": "2026-08-17T18:09:30Z",
+   "elapsedMs": 5198000,
+   "phase": "P5",
+   "category": "vercel",
+   "event": "Firewall rate-limit rule mcp-endpoint-rate-limit active (fixed window 60s, limit 120, key ip, action deny) on ^/apps/[^/]+/mcp$",
+   "result": "OK"
+  }
+ ],
+ "issues": [
+  {
+   "id": "ISS-001",
+   "observedUtc": "2026-08-17T17:13:30Z",
+   "resolvedUtc": "2026-08-17T17:14:30Z",
+   "phase": "P3",
+   "classification": "upstream",
+   "origin": "pre-existing",
+   "summary": "Plan's initial 512 KiB UI-resource ceiling is smaller than the real official React example artifacts (~531 KiB single-file HTML)",
+   "correction": "Resource ceiling raised to documented hard-bounded 1 MiB; resources/read envelope ceiling 1.25 MiB; tool-result ceiling kept at 512 KiB; recorded as plan deviation",
+   "timeToDetectMs": 0,
+   "timeToRepairMs": 60000,
+   "status": "Resolved"
+  },
+  {
+   "id": "ISS-002",
+   "observedUtc": "2026-08-17T17:16:36Z",
+   "resolvedUtc": "2026-08-17T17:17:39Z",
+   "phase": "P3",
+   "classification": "test",
+   "origin": "self-introduced",
+   "summary": "Initialize-negotiation expectation wrong; import.meta bundle fallback defeated boot-failure simulation; semaphore cache ignored changed capacity",
+   "correction": "Test corrected + extended; GALLERY_RESOURCE_BUNDLE_PATH override seam; semaphore cache keyed by slug+capacity (REG-001)",
+   "timeToDetectMs": 0,
+   "timeToRepairMs": 63000,
+   "status": "Resolved"
+  },
+  {
+   "id": "ISS-003",
+   "observedUtc": "2026-08-17T17:20:30Z",
+   "resolvedUtc": "2026-08-17T17:25:30Z",
+   "phase": "P3",
+   "classification": "implementation",
+   "origin": "self-introduced",
+   "summary": "SBOM generator undercounted pnpm's non-hoisted closure, then failed under a pnpm-9 standalone npm_execpath that cannot read the pnpm-10 store",
+   "correction": "Rewrote as in-process module-graph walk (no subprocess); resolves exports-hidden manifests; fails on unresolved packages; 7 components",
+   "timeToDetectMs": 0,
+   "timeToRepairMs": 300000,
+   "status": "Resolved"
+  },
+  {
+   "id": "ISS-004",
+   "observedUtc": "2026-08-17T17:31:00Z",
+   "resolvedUtc": "2026-08-17T17:39:00Z",
+   "phase": "P5",
+   "classification": "implementation",
+   "origin": "self-introduced",
+   "summary": "Extensionless runtime imports and ESM JSON imports crash under Vercel's per-file transpile + native ESM loader",
+   "correction": "Explicit .js specifiers on the runtime path, createRequire for JSON, mechanical architecture-check rule",
+   "timeToDetectMs": 0,
+   "timeToRepairMs": 480000,
+   "status": "Resolved"
+  },
+  {
+   "id": "ISS-005",
+   "observedUtc": "2026-08-17T17:40:40Z",
+   "resolvedUtc": "2026-08-17T18:06:39Z",
+   "phase": "P5",
+   "classification": "provider",
+   "origin": "exposed-by-run",
+   "summary": "Hono builder snapshots public/ pre-build; filesystem phase resolves the function at / with no index resolution; cleanUrls and rewrites cannot serve the root",
+   "correction": "Deterministic committed site (origin-derived endpoint URLs, live build label) + digest-verified page copy in the resource bundle served by the function + CI drift check",
+   "timeToDetectMs": 0,
+   "timeToRepairMs": 1560000,
+   "status": "Resolved"
+  },
+  {
+   "id": "ISS-006",
+   "observedUtc": "2026-08-17T17:45:00Z",
+   "resolvedUtc": null,
+   "phase": "P5",
+   "classification": "provider",
+   "origin": "external",
+   "summary": "GitHub API 503 incident: CodeQL feature-enablement init failures and intermittent gh failures",
+   "correction": "Reruns after recovery; monitoring",
+   "status": "Monitoring"
+  }
+ ],
+ "regressions": [
+  {
+   "id": "REG-001",
+   "issue": "ISS-002",
+   "introducedUtc": "2026-08-17T17:08:00Z",
+   "detectedUtc": "2026-08-17T17:16:36Z",
+   "correctedUtc": "2026-08-17T17:17:20Z",
+   "summary": "appSemaphore cached by slug only, so a caller with a different capacity silently reused a stale ceiling",
+   "userImpactIfShipped": "None for the static production registry; a capacity change without instance restart discipline could have enforced a stale ceiling",
+   "correction": "Cache key includes capacity; concurrency test observes successes and 429 shedding",
+   "status": "Corrected before any push"
+  },
+  {
+   "id": "REG-002",
+   "issue": "ISS-004",
+   "introducedUtc": "2026-08-17T17:08:00Z",
+   "detectedUtc": "2026-08-17T17:31:00Z",
+   "correctedUtc": "2026-08-17T17:39:00Z",
+   "summary": "Bundler-style extensionless imports crashed every deployed invocation",
+   "userImpactIfShipped": "Total outage of all endpoints",
+   "correction": "Explicit .js specifiers + mechanical guard",
+   "status": "Corrected pre-promotion"
+  },
+  {
+   "id": "REG-003",
+   "issue": "ISS-005",
+   "introducedUtc": "2026-08-17T17:10:00Z",
+   "detectedUtc": "2026-08-17T17:40:40Z",
+   "correctedUtc": "2026-08-17T18:06:39Z",
+   "summary": "Build-time-only site generation never reached the CDN; root unreachable",
+   "userImpactIfShipped": "Gallery landing page 404",
+   "correction": "Committed deterministic site + function-served root + drift check",
+   "status": "Corrected pre-promotion"
+  }
+ ],
+ "deployments": [
+  {
+   "id": "dpl_4479vfJtw88JvQ13kFRhRa4enk4M",
+   "sha": "0c00233f96",
+   "target": "production-anomalous-initial-connection",
+   "state": "READY",
+   "note": "Initial Git-connection artifact built from the feature branch with target=production; never received the canonical domain (auto-assign disabled); invocations crashed (ISS-004)"
+  },
+  {
+   "id": "dpl_JALrrJdnSer9epoXzj5gmJQCWo4q",
+   "sha": "4745f6979c",
+   "target": "preview",
+   "state": "READY",
+   "note": "First working preview (ESM fix); 27/28 canary (gallery page 404)"
+  },
+  {
+   "id": "dpl_DmFDyj1z7hbFptpXxw1dCXXafN4w",
+   "sha": "32570d6784",
+   "target": "preview",
+   "state": "READY",
+   "note": "cleanUrls/rewrite attempts; root still function-resolved"
+  },
+  {
+   "id": "dpl_535g4ecjy",
+   "sha": "d68adf6936",
+   "target": "preview",
+   "state": "READY",
+   "note": "Function-served page; 28/28 canary \u2014 Preview proof complete"
+  }
+ ]
 }

@@ -6,10 +6,9 @@ coverage/
 .DS_Store
 .env
 .env.*
-/public/assets/
-/public/index.html
-/public/apps.json
 /generated/
 /upstream/ext-apps/*/dist/
 /test-results/
 /playwright-report/
+.vercel
+.env*

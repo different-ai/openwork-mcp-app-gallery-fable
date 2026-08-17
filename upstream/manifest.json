@@ -12,6 +12,10 @@
     {
       "upstreamPath": "examples/*/.gitignore",
       "reason": "Repository housekeeping file, not source."
+    },
+    {
+      "upstreamPath": "examples/basic-host/serve.ts",
+      "reason": "Unused dev-only Express server reference; the browser-test harness reimplements it as tests/browser/harness-server.mjs (in-memory serving, no per-request filesystem access). Removed after CodeQL flagged its unbounded per-request file serving (js/missing-rate-limiting); the gallery never executes it."
     }
   ],
   "devOnly": [
@@ -54,13 +58,6 @@
       "upstreamPath": "examples/basic-host/sandbox.html",
       "originalSha256": "97c0b4a0e9097d5a01d5d1c63b48f27bd6f8e636ddc5bd5052cc7e1a934ea87a",
       "currentSha256": "97c0b4a0e9097d5a01d5d1c63b48f27bd6f8e636ddc5bd5052cc7e1a934ea87a",
-      "modified": false
-    },
-    {
-      "path": "upstream/ext-apps/basic-host/serve.ts",
-      "upstreamPath": "examples/basic-host/serve.ts",
-      "originalSha256": "f011ddcd56a33022e2c6c5a173fb03eb59ebbb81310f0cc4a6fd57cbd6ff2629",
-      "currentSha256": "f011ddcd56a33022e2c6c5a173fb03eb59ebbb81310f0cc4a6fd57cbd6ff2629",
       "modified": false
     },
     {

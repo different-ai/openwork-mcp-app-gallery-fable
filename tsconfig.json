@@ -24,9 +24,5 @@
     "tests/**/*",
     "scripts/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "upstream/ext-apps/*/dist",
-    "upstream/ext-apps/basic-host/serve.ts"
-  ]
+  "exclude": ["node_modules", "upstream/ext-apps/*/dist"]
 }

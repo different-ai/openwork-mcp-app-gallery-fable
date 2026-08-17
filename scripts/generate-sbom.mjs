@@ -67,7 +67,7 @@ while (queue.length > 0) {
     licenses: manifest.license
       ? [{ license: { id: manifest.license } }]
       : undefined,
-    purl: `pkg:npm/${manifest.name.replace("@", "%40")}@${manifest.version}`,
+    purl: `pkg:npm/${manifest.name.replaceAll("@", "%40")}@${manifest.version}`,
   });
   const base = path.dirname(manifestPath);
   for (const dependency of Object.keys(manifest.dependencies ?? {})) {

@@ -10,9 +10,7 @@
       "supportsCancellation": true
     }
   },
-  "regions": [
-    "iad1"
-  ],
+  "regions": ["iad1"],
   "headers": [
     {
       "source": "/(.*)",
@@ -82,12 +80,6 @@
           "value": "private, no-store"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/index.html"
     }
   ]
 }

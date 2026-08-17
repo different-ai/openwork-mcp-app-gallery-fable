@@ -65,10 +65,24 @@ for (const app of registryData.apps) {
   };
 }
 
+// The committed gallery page ships inside the function bundle too: the
+// framework preset's filesystem phase matches the function at "/" before any
+// static index resolution, so the function itself must serve the landing
+// page (assets and screenshots stay on the CDN).
+const siteHtml = await readFile(
+  path.join(root, "public", "index.html"),
+  "utf8",
+);
+
 const bundle = {
   schemaVersion: 1,
   upstreamCommit: registryData.upstreamCommit,
   builtAt: new Date().toISOString(),
+  site: {
+    html: siteHtml,
+    sha256: createHash("sha256").update(siteHtml).digest("hex"),
+    bytes: Buffer.byteLength(siteHtml, "utf8"),
+  },
   resources,
 };
 

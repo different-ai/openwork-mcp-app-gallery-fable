@@ -10,6 +10,15 @@ import { legacyCall, legacyRequest, testApplication } from "../helpers";
 describe("diagnostics", () => {
   const app = testApplication();
 
+  it("serves the gallery page at the root from the bundled site", async () => {
+    const response = await app.request("/");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toContain("text/html");
+    const html = await response.text();
+    expect(html).toContain("MCP Apps Example Gallery");
+    expect(html).toContain("Copy MCP URL");
+  });
+
   it("healthz proves liveness only", async () => {
     const response = await app.request("/healthz");
     expect(response.status).toBe(200);

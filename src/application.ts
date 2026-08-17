@@ -17,7 +17,7 @@ import {
   validateRegistry,
   type GalleryAppRegistration,
 } from "./registry.js";
-import { bundleMeta, loadResourceBundle } from "./resources.js";
+import { bundleMeta, getSiteHtml, loadResourceBundle } from "./resources.js";
 
 // JSON is loaded through require so the transpiled output runs on Node's
 // native ESM loader without import attributes.
@@ -114,6 +114,18 @@ export function createApplication(
     if (!c.res.headers.has("cache-control")) {
       c.res.headers.set("cache-control", NO_STORE);
     }
+  });
+
+  app.get("/", (c) => {
+    // The framework preset's filesystem phase matches this function at "/"
+    // before any static index resolution, so the landing page is served from
+    // the bundled immutable copy (assets and screenshots stay on the CDN).
+    const html = getSiteHtml();
+    if (!html) {
+      return c.json({ error: "gallery_page_unavailable" }, 503);
+    }
+    c.header("cache-control", "public, max-age=300");
+    return c.html(html);
   });
 
   app.get("/healthz", (c) => {

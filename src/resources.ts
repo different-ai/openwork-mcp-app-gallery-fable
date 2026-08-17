@@ -28,10 +28,17 @@ export interface BundledResource {
   html: string;
 }
 
+export interface BundledSite {
+  html: string;
+  sha256: string;
+  bytes: number;
+}
+
 export interface ResourceBundle {
   schemaVersion: number;
   upstreamCommit: string;
   builtAt: string;
+  site: BundledSite;
   resources: Record<string, BundledResource>;
 }
 
@@ -77,6 +84,21 @@ function validateBundle(parsed: unknown): ResourceBundle {
   }
   if (typeof bundle.resources !== "object" || bundle.resources === null) {
     throw new Error("bundle carries no resources map");
+  }
+  const site = bundle.site;
+  if (
+    typeof site !== "object" ||
+    site === null ||
+    typeof site.html !== "string" ||
+    !site.html.toLowerCase().includes("<!doctype html")
+  ) {
+    throw new Error("bundle carries no gallery site page");
+  }
+  if (Buffer.byteLength(site.html, "utf8") !== site.bytes) {
+    throw new Error("site page byte count mismatch");
+  }
+  if (createHash("sha256").update(site.html).digest("hex") !== site.sha256) {
+    throw new Error("site page digest mismatch");
   }
   for (const [slug, resource] of Object.entries(bundle.resources)) {
     if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) {
@@ -144,6 +166,12 @@ export function getBundledResourceHtml(slug: string): string {
     throw new Error("app resources are unavailable");
   }
   return resource.html;
+}
+
+export function getSiteHtml(): string | null {
+  const state = loadResourceBundle();
+  if (state.state !== "ready") return null;
+  return state.bundle.site.html;
 }
 
 export function bundleMeta(): {

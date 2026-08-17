@@ -2,6 +2,13 @@
  * Generate the static gallery site under public/ from the same registry data
  * the gateway serves, plus the build-time generated/apps.json artifact. The
  * site is served by the Vercel CDN; there is no second handwritten catalog.
+ *
+ * The generated page is deterministic and committed: it contains no absolute
+ * origins and no per-build labels (endpoint URLs are derived client-side from
+ * the page's own origin, and the build provenance is fetched from /version).
+ * Vercel's Hono builder snapshots public/ BEFORE the build command runs, so
+ * build-time-only generation never reaches the CDN; CI verifies the committed
+ * output matches regeneration.
  */
 import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -82,7 +89,7 @@ function escapeHtml(value) {
 }
 
 function card(app) {
-  const endpoint = `${baseUrl}/apps/${app.slug}/mcp`;
+  const endpointPath = `/apps/${app.slug}/mcp`;
   const sourceUrl = `${registryData.upstreamRepository}/tree/${registryData.upstreamCommit}/examples/${app.upstreamDir}`;
   const compatibility = app.compatibility ?? "contract-tested";
   return `      <article class="card" aria-labelledby="title-${app.slug}">
@@ -104,13 +111,13 @@ function card(app) {
           </p>
           <p class="card-endpoint">
             <span class="endpoint-label" id="endpoint-label-${app.slug}">MCP endpoint</span>
-            <code class="endpoint-url" data-endpoint>${escapeHtml(endpoint)}</code>
+            <code class="endpoint-url" data-endpoint data-path="${endpointPath}">${endpointPath}</code>
           </p>
           <p class="card-actions">
             <button
               type="button"
               class="copy-button"
-              data-copy="${escapeHtml(endpoint)}"
+              data-path="${endpointPath}"
               aria-describedby="endpoint-label-${app.slug}"
             >Copy MCP URL</button>
             <span class="copy-status" role="status" aria-live="polite"></span>
@@ -121,7 +128,8 @@ function card(app) {
             @ <code>${registryData.upstreamCommit.slice(0, 12)}</code>
           </p>
           <p class="card-meta">
-            Compatibility: ${escapeHtml(compatibility)} · build <code>${buildLabel}</code>
+            Compatibility: ${escapeHtml(compatibility)} · build
+            <code class="build-label" data-build-label>see <a href="/version">/version</a></code>
           </p>
         </div>
       </article>`;

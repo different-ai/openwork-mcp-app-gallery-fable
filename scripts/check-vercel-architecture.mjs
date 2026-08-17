@@ -5,7 +5,9 @@
  *
  * Run after `pnpm run build:vercel` (it also asserts build outputs exist).
  */
+import { execFile } from "node:child_process";
 import { readFile, readdir, stat } from "node:fs/promises";
+import { promisify } from "node:util";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -315,6 +317,38 @@ for (const file of RUNTIME_PATH_FILES) {
     !/import\s+[^"']*from\s+["'][^"']*\.json["']/u.test(source),
     `${file}: JSON must load via createRequire, not an ESM JSON import`,
   );
+}
+
+// --- committed CDN site must match regeneration ------------------------------
+// Vercel's Hono builder snapshots public/ before the build command runs, so
+// the gallery site is committed. Regeneration (which build:vercel just ran)
+// must leave the committed files unchanged, proving the page still derives
+// from the checked-in registry with no handwritten drift.
+try {
+  const { stdout } = await promisify(execFile)("git", [
+    "status",
+    "--porcelain",
+    "--",
+    "public",
+  ]);
+  // Fail on untracked files or worktree modifications; a staged-but-clean
+  // entry (index "A", worktree " ") is a commit in progress, not drift.
+  const drift = stdout
+    .split("\n")
+    .filter((line) => line.length > 2)
+    .filter((line) => line.startsWith("??") || line[1] !== " ");
+  assert(
+    drift.length === 0,
+    `committed public/ differs from regenerated output:\n${drift.join("\n")}`,
+  );
+} catch (error) {
+  if (
+    error instanceof Error &&
+    /differs from regenerated/.test(error.message)
+  ) {
+    throw error;
+  }
+  console.warn("git unavailable — skipping public/ drift check");
 }
 
 console.log("Vercel architecture boundary passed");

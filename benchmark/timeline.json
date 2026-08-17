@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "modelName": "FABLE",
+  "modelNamespace": "fable",
+  "startedAtUtc": "2026-08-17T16:42:52.276Z",
+  "startedAtLocal": "2026-08-17T18:42:52.276+02:00",
+  "startEpochMs": 1786984972276,
+  "completedAtUtc": null,
+  "completedAtLocal": null,
+  "completedEpochMs": null,
+  "totalElapsedMs": null,
+  "estimatedActiveMs": null,
+  "externalWaitMs": 0,
+  "ciWaitMs": 0,
+  "vercelWaitMs": 0,
+  "reworkMs": 0,
+  "currentPhase": "P1-RepositoryBootstrap",
+  "finalVerdict": "Running",
+  "milestones": [
+    {
+      "id": "run-start",
+      "utc": "2026-08-17T16:42:52.276Z",
+      "local": "2026-08-17T18:42:52.276+02:00",
+      "elapsedMs": 0,
+      "label": "Run start recorded; timeline files created as first filesystem action"
+    },
+    {
+      "id": "preflight-complete",
+      "utc": "2026-08-17T16:52:30.569Z",
+      "local": "2026-08-17T18:52:30.569+02:00",
+      "elapsedMs": 578294,
+      "label": "Preflight complete: auth, collision, sources of truth, source freeze, dependency and protocol verification"
+    }
+  ],
+  "phases": [
+    {
+      "id": "P0",
+      "name": "Preflight",
+      "startedAtUtc": "2026-08-17T16:42:52.276Z",
+      "endedAtUtc": "2026-08-17T16:52:30.569Z",
+      "status": "Passed",
+      "dominantCategory": "research/auth/protocol verification"
+    },
+    {
+      "id": "P1",
+      "name": "Repository bootstrap",
+      "startedAtUtc": "2026-08-17T16:52:30.569Z",
+      "endedAtUtc": null,
+      "status": "Running",
+      "dominantCategory": "implementation"
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "utc": "2026-08-17T16:42:52.276Z",
+      "elapsedMs": 0,
+      "phase": "P0",
+      "category": "timeline",
+      "event": "Run start recorded; TIMELINE.md and benchmark/timeline.json created as first filesystem action",
+      "result": "OK"
+    },
+    {
+      "id": 2,
+      "utc": "2026-08-17T16:43:20Z",
+      "elapsedMs": 28000,
+      "phase": "P0",
+      "category": "authentication",
+      "event": "gh authenticated as reachjalil (repo+workflow scopes); different-ai membership active; Vercel CLI 56.1.0 authenticated as jalil-7198",
+      "result": "OK"
+    },
+    {
+      "id": 3,
+      "utc": "2026-08-17T16:43:20Z",
+      "elapsedMs": 28000,
+      "phase": "P0",
+      "category": "preflight",
+      "event": "No collision: local dir absent, different-ai/openwork-mcp-app-gallery-fable absent",
+      "result": "OK"
+    },
+    {
+      "id": 4,
+      "utc": "2026-08-17T16:45:30Z",
+      "elapsedMs": 158000,
+      "phase": "P0",
+      "category": "research",
+      "event": "All 8 sources of truth read; authoritative openwork-snacks:forward aef537a verified identical to local reference files via authenticated gh api",
+      "result": "OK"
+    },
+    {
+      "id": 5,
+      "utc": "2026-08-17T16:46:10Z",
+      "elapsedMs": 198000,
+      "phase": "P0",
+      "category": "source-freeze",
+      "event": "modelcontextprotocol/ext-apps fetched at exact pinned commit 10195ad91851502134930e9b80ec2c04e277a720; six selected examples inspected; upstream LICENSE is MIT-to-Apache-2.0 transition with example package.json declaring MIT",
+      "result": "OK"
+    },
+    {
+      "id": 6,
+      "utc": "2026-08-17T16:47:00Z",
+      "elapsedMs": 248000,
+      "phase": "P0",
+      "category": "dependency",
+      "event": "Verified npm: mcp-handler 2.1.1, @modelcontextprotocol/server 2.0.0 (core 2.0.0, zod ^4.2.0), @modelcontextprotocol/ext-apps 1.7.5, hono 4.13.2, zod 4.4.3",
+      "result": "OK"
+    },
+    {
+      "id": 7,
+      "utc": "2026-08-17T16:52:30Z",
+      "elapsedMs": 578294,
+      "phase": "P0",
+      "category": "protocol-verification",
+      "event": "Live probe against mcp-handler 2.1.1: modern 2026-07-28 era requires per-request _meta envelope plus MCP-Protocol-Version/Mcp-Method/Mcp-Name headers with JSON responses; legacy 2025-era stateless flow works over SSE framing; GET/DELETE 405; malformed JSON -32700",
+      "result": "OK"
+    }
+  ],
+  "issues": [],
+  "regressions": [],
+  "deployments": []
+}

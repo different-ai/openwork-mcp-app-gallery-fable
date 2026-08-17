@@ -28,10 +28,9 @@ Non-MCP routes: `/` (gallery page), `/apps.json` (machine-readable manifest),
 
 ## Production endpoints
 
-The gallery's production origin is the provider-issued project domain
-**https://openwork-mcp-app-gallery-fable.vercel.app**. It serves these
-endpoints once the staged production deployment is promoted; the verification
-receipt for the exact deployed commit lands in `BENCHMARK_REPORT.md`:
+The production gallery is served at
+**<https://openwork-mcp-app-gallery-fable.vercel.app>** (verified against the
+exact deployed commit; receipts in `BENCHMARK_REPORT.md` and `TIMELINE.md`):
 
 - <https://openwork-mcp-app-gallery-fable.vercel.app/apps/get-time/mcp>
 - <https://openwork-mcp-app-gallery-fable.vercel.app/apps/budget-allocator/mcp>

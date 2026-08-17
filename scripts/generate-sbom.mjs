@@ -1,9 +1,12 @@
 /**
  * Generate a minimal CycloneDX 1.5 SBOM for the production dependency
- * closure, using pnpm's own license/dependency inventory (no network).
+ * closure by walking the installed module graph (no subprocesses, no
+ * network; robust to pnpm's non-hoisted layout and exports-hidden
+ * package.json files).
  */
-import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,35 +15,70 @@ const packageJson = JSON.parse(
   await readFile(path.join(root, "package.json"), "utf8"),
 );
 
-// Resolve the running pnpm (works under corepack shims and CI alike).
-const pnpmEntry = process.env.npm_execpath;
-const command = pnpmEntry ? process.execPath : "pnpm";
-const baseArgs = pnpmEntry ? [pnpmEntry] : [];
-
-const raw = execFileSync(
-  command,
-  [...baseArgs, "licenses", "list", "--prod", "--json"],
-  { cwd: root, encoding: "utf8" },
-);
-const licenses = JSON.parse(raw);
-
-const components = [];
-for (const [licenseId, packages] of Object.entries(licenses)) {
-  for (const entry of packages) {
-    for (const version of entry.versions ?? []) {
-      components.push({
-        type: "library",
-        name: entry.name,
-        version,
-        licenses: [{ license: { id: licenseId } }],
-        purl: `pkg:npm/${entry.name.replace("@", "%40")}@${version}`,
-      });
+async function manifestPathFor(name, fromDir) {
+  const require_ = createRequire(path.join(fromDir, "noop.js"));
+  let entry;
+  try {
+    entry = require_.resolve(name);
+  } catch {
+    try {
+      entry = require_.resolve(`${name}/package.json`);
+    } catch {
+      return null;
     }
   }
+  let directory = path.dirname(entry);
+  while (directory !== path.dirname(directory)) {
+    const candidate = path.join(directory, "package.json");
+    if (existsSync(candidate)) {
+      try {
+        const manifest = JSON.parse(await readFile(candidate, "utf8"));
+        if (manifest.name === name) return candidate;
+      } catch {
+        // keep walking up
+      }
+    }
+    directory = path.dirname(directory);
+  }
+  return null;
 }
-components.sort(
-  (a, b) => a.name.localeCompare(b.name) || a.version.localeCompare(b.version),
-);
+
+const seen = new Map();
+const queue = Object.keys(packageJson.dependencies ?? {}).map((name) => ({
+  name,
+  from: root,
+}));
+const failures = [];
+
+while (queue.length > 0) {
+  const { name, from } = queue.shift();
+  const manifestPath = await manifestPathFor(name, from);
+  if (!manifestPath) {
+    failures.push(`${name} (from ${path.relative(root, from) || "."})`);
+    continue;
+  }
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  const key = `${manifest.name}@${manifest.version}`;
+  if (seen.has(key)) continue;
+  seen.set(key, {
+    type: "library",
+    name: manifest.name,
+    version: manifest.version,
+    licenses: manifest.license
+      ? [{ license: { id: manifest.license } }]
+      : undefined,
+    purl: `pkg:npm/${manifest.name.replace("@", "%40")}@${manifest.version}`,
+  });
+  const base = path.dirname(manifestPath);
+  for (const dependency of Object.keys(manifest.dependencies ?? {})) {
+    queue.push({ name: dependency, from: base });
+  }
+}
+
+if (failures.length > 0) {
+  console.error(`SBOM: unresolved production packages: ${failures.join(", ")}`);
+  process.exit(1);
+}
 
 const sbom = {
   bomFormat: "CycloneDX",
@@ -54,7 +92,10 @@ const sbom = {
       version: packageJson.version,
     },
   },
-  components,
+  components: [...seen.values()].sort(
+    (a, b) =>
+      a.name.localeCompare(b.name) || a.version.localeCompare(b.version),
+  ),
 };
 
 await mkdir(path.join(root, "generated"), { recursive: true });

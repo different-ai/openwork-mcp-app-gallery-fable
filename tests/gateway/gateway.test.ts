@@ -316,15 +316,13 @@ describe("deadline, concurrency, cancellation, containment", () => {
       signal: controller.signal,
     });
     setTimeout(() => controller.abort(), 100);
-    await pending.then(
-      (response) => {
-        // Hono may still surface the gateway's placeholder response.
-        expect([499, 500]).toContain(response.status);
-      },
-      () => {
-        // A rejected request promise is the standard abort outcome.
-      },
-    );
+    try {
+      const response = await pending;
+      // Hono may still surface the gateway's placeholder response.
+      expect([499, 500]).toContain(response.status);
+    } catch {
+      // A rejected request promise is the standard abort outcome.
+    }
     const after = await legacyCall(app, "fixture-slow", "tools/call", {
       name: "sleep",
       arguments: { ms: 10 },

@@ -7,7 +7,7 @@ import {
   registerAppResource,
   registerAppTool,
   readBundledAppHtml,
-} from "../../../src/mcp-app-adapter";
+} from "../../../src/mcp-app-adapter.js";
 import type {
   McpServer,
   CallToolResult,

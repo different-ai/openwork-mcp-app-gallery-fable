@@ -9,14 +9,14 @@
  * sanitized logging. Failures never expose stack traces or echo user input.
  */
 import { createMcpHandler } from "mcp-handler";
-import { logRecord } from "./observability";
-import type { GalleryAppRegistration } from "./registry";
+import { logRecord } from "./observability.js";
+import type { GalleryAppRegistration } from "./registry.js";
 import {
   MAX_RESOURCE_RESPONSE_BYTES,
   appSemaphore,
   globalSemaphore,
   readBoundedBody,
-} from "./limits";
+} from "./limits.js";
 
 type FetchHandler = (request: Request) => Promise<Response>;
 

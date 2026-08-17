@@ -16,7 +16,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { MAX_RESOURCE_BYTES } from "./limits";
+import { MAX_RESOURCE_BYTES } from "./limits.js";
 
 export const RESOURCE_BUNDLE_MIME = "text/html;profile=mcp-app";
 

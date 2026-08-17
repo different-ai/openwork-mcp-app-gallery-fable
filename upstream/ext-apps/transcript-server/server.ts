@@ -12,7 +12,7 @@ import {
   registerAppResource,
   RESOURCE_MIME_TYPE,
   readBundledAppHtml,
-} from "../../../src/mcp-app-adapter";
+} from "../../../src/mcp-app-adapter.js";
 const resourceUri = "ui://transcript/mcp-app.html";
 
 /**

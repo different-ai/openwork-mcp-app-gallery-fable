@@ -172,7 +172,7 @@
       "path": "upstream/ext-apps/basic-server-react/server.ts",
       "upstreamPath": "examples/basic-server-react/server.ts",
       "originalSha256": "468bba2471e14832d6312630d39a805d3cc03fe905ea393f38f23e1d703ac2c3",
-      "currentSha256": "87a0750354acdded410ad2725f9e0ba791d18728b669e6b1421d9bd4a21bed74",
+      "currentSha256": "d73da85b7524f1bef41a9da52463ac3b3f0fe96276ddf0cb40da95f3e94a88a4",
       "modified": true,
       "modificationNote": "Adapted from MCP SDK v1 + @modelcontextprotocol/ext-apps/server to the gallery's SDK v2 registration adapter (src/mcp-app-adapter.ts): import paths changed, createServer() became registerApp(server) receiving the per-request SDK v2 server, and the dist/mcp-app.html filesystem read was replaced by the immutable bundled resource store. Tool names, descriptions, schemas, resource URIs, MIME profile, _meta.ui declarations, fallback content, and UI behavior are unchanged."
     },
@@ -264,7 +264,7 @@
       "path": "upstream/ext-apps/budget-allocator-server/server.ts",
       "upstreamPath": "examples/budget-allocator-server/server.ts",
       "originalSha256": "384a6c6e915c2f8ec385c8b54ec4bce1e7d178e5bfc205d1b4e5c51f769914ff",
-      "currentSha256": "c04797d5775a44f043370d002f70e5c8fb2731f1bf895941fca419d6b18121a1",
+      "currentSha256": "83b38624ecc5cdaaac43565447c74f6fb5cdb8eaaecb27feae2e72ca4b9648c9",
       "modified": true,
       "modificationNote": "Adapted from MCP SDK v1 + @modelcontextprotocol/ext-apps/server to the gallery's SDK v2 registration adapter (src/mcp-app-adapter.ts): import paths changed, createServer() became registerApp(server) receiving the per-request SDK v2 server, and the dist/mcp-app.html filesystem read was replaced by the immutable bundled resource store. Tool names, descriptions, schemas, resource URIs, MIME profile, _meta.ui declarations, fallback content, and UI behavior are unchanged."
     },
@@ -349,7 +349,7 @@
       "path": "upstream/ext-apps/cohort-heatmap-server/server.ts",
       "upstreamPath": "examples/cohort-heatmap-server/server.ts",
       "originalSha256": "34d7d9d2cfca3fb9863c454888690f077b50a79307176be81ce024b2d5b4b085",
-      "currentSha256": "f550f7cbdf5386c323f861150eca4dd3ad5fa3676f65a7c42194e72c0046ee00",
+      "currentSha256": "7813625d43a7e088c8661f21a3d99d8284f362bf827574923d62a3a35fed94fa",
       "modified": true,
       "modificationNote": "Adapted from MCP SDK v1 + @modelcontextprotocol/ext-apps/server to the gallery's SDK v2 registration adapter (src/mcp-app-adapter.ts): import paths changed, createServer() became registerApp(server) receiving the per-request SDK v2 server, and the dist/mcp-app.html filesystem read was replaced by the immutable bundled resource store. Tool names, descriptions, schemas, resource URIs, MIME profile, _meta.ui declarations, fallback content, and UI behavior are unchanged."
     },
@@ -441,7 +441,7 @@
       "path": "upstream/ext-apps/customer-segmentation-server/server.ts",
       "upstreamPath": "examples/customer-segmentation-server/server.ts",
       "originalSha256": "e21320a41239f4f30861cb3963d2e60bdc5b96d3223f71a66adec3f4e6c4e597",
-      "currentSha256": "31125f8a9a95e4ef8c88c0cdeaf6cc192b7158574c636d517d4d247669f58ed3",
+      "currentSha256": "b0dd871de234012a3028b4f569169dce93a0b1788b512f6286ae528220f10c30",
       "modified": true,
       "modificationNote": "Adapted to SDK v2 as for the other examples, and the mutable module-level dataset cache was removed in favor of deterministic seeded generation, because the hosted gallery serves stateless concurrent instances."
     },
@@ -541,7 +541,7 @@
       "path": "upstream/ext-apps/scenario-modeler-server/server.ts",
       "upstreamPath": "examples/scenario-modeler-server/server.ts",
       "originalSha256": "0e37235816e16ba35a2a0b86b2163b65fcd107f95f677716a4ad73e51c0d8188",
-      "currentSha256": "0d7ace818850b1142b5305754f2f742ff384aeb56c26a7fb6dc78406711c379a",
+      "currentSha256": "cd81f3c6aeb2af908836308c0141f53606cc448ad46d8a0f1f06cf626bf1faca",
       "modified": true,
       "modificationNote": "Adapted from MCP SDK v1 + @modelcontextprotocol/ext-apps/server to the gallery's SDK v2 registration adapter (src/mcp-app-adapter.ts): import paths changed, createServer() became registerApp(server) receiving the per-request SDK v2 server, and the dist/mcp-app.html filesystem read was replaced by the immutable bundled resource store. Tool names, descriptions, schemas, resource URIs, MIME profile, _meta.ui declarations, fallback content, and UI behavior are unchanged."
     },
@@ -675,7 +675,7 @@
       "path": "upstream/ext-apps/transcript-server/server.ts",
       "upstreamPath": "examples/transcript-server/server.ts",
       "originalSha256": "f2738b9681b8b73d8f4186717bbb533458cd48f9e0977aac379d65397e61850d",
-      "currentSha256": "4c2304506bc503c301a7fd816660c72d9105025c88150f8cab8b23fb1f672576",
+      "currentSha256": "9157bb8df6362ca58abb5a5c2b46f88f51f348af56f78200a70374326b1025cd",
       "modified": true,
       "modificationNote": "Adapted from MCP SDK v1 + @modelcontextprotocol/ext-apps/server to the gallery's SDK v2 registration adapter (src/mcp-app-adapter.ts): import paths changed, createServer() became registerApp(server) receiving the per-request SDK v2 server, and the dist/mcp-app.html filesystem read was replaced by the immutable bundled resource store. Tool names, descriptions, schemas, resource URIs, MIME profile, _meta.ui declarations, fallback content, and UI behavior are unchanged."
     },

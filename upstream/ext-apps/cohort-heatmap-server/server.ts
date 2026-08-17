@@ -9,7 +9,7 @@ import {
   registerAppResource,
   registerAppTool,
   readBundledAppHtml,
-} from "../../../src/mcp-app-adapter";
+} from "../../../src/mcp-app-adapter.js";
 
 // Schemas - types are derived from these using z.infer
 const GetCohortDataInputSchema = z.object({

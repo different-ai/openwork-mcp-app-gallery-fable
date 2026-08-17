@@ -13,3 +13,5 @@ coverage/
 /upstream/ext-apps/*/dist/
 /test-results/
 /playwright-report/
+.vercel
+.env*

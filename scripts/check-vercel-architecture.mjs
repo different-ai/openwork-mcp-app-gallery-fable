@@ -277,4 +277,44 @@ assert(
   "the resource bundle must be built from the pinned upstream commit",
 );
 
+// --- native-ESM runtime resolution ------------------------------------------
+// Vercel's Hono builder transpiles per file and runs Node's native ESM
+// loader: every relative import on the runtime path must carry an explicit
+// .js extension, and JSON must load via createRequire (import attributes are
+// not emitted by the transpile).
+const RUNTIME_PATH_FILES = [
+  "app.ts",
+  "src/application.ts",
+  "src/base-url.ts",
+  "src/gateway.ts",
+  "src/limits.ts",
+  "src/mcp-app-adapter.ts",
+  "src/observability.ts",
+  "src/registry.ts",
+  "src/resources.ts",
+  "upstream/ext-apps/basic-server-react/server.ts",
+  "upstream/ext-apps/budget-allocator-server/server.ts",
+  "upstream/ext-apps/cohort-heatmap-server/server.ts",
+  "upstream/ext-apps/customer-segmentation-server/server.ts",
+  "upstream/ext-apps/customer-segmentation-server/src/data-generator.ts",
+  "upstream/ext-apps/customer-segmentation-server/src/types.ts",
+  "upstream/ext-apps/scenario-modeler-server/server.ts",
+  "upstream/ext-apps/transcript-server/server.ts",
+];
+const relativeImportPattern = /from\s+["'](\.[^"']*)["']/gu;
+for (const file of RUNTIME_PATH_FILES) {
+  const source = await text(file);
+  for (const match of source.matchAll(relativeImportPattern)) {
+    const specifier = match[1];
+    assert(
+      specifier.endsWith(".js"),
+      `${file}: relative runtime import ${specifier} must end in .js for Node's native ESM loader`,
+    );
+  }
+  assert(
+    !/import\s+[^"']*from\s+["'][^"']*\.json["']/u.test(source),
+    `${file}: JSON must load via createRequire, not an ESM JSON import`,
+  );
+}
+
 console.log("Vercel architecture boundary passed");

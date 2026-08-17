@@ -13,12 +13,12 @@ import {
   registerAppResource,
   registerAppTool,
   readBundledAppHtml,
-} from "../../../src/mcp-app-adapter";
+} from "../../../src/mcp-app-adapter.js";
 import {
   generateCustomers,
   generateSegmentSummaries,
-} from "./src/data-generator";
-import { SEGMENTS, type Customer, type SegmentSummary } from "./src/types";
+} from "./src/data-generator.js";
+import { SEGMENTS, type Customer, type SegmentSummary } from "./src/types.js";
 
 // Schemas - types are derived from these using z.infer
 const GetCustomerDataInputSchema = z.object({

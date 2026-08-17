@@ -11,13 +11,13 @@
  * nothing can enable an app that is not reviewed into this registry.
  */
 import type { McpServer } from "@modelcontextprotocol/server";
-import registryData from "./registry-data.json";
-import { registerApp as registerGetTime } from "../upstream/ext-apps/basic-server-react/server";
-import { registerApp as registerBudgetAllocator } from "../upstream/ext-apps/budget-allocator-server/server";
-import { registerApp as registerCohortHeatmap } from "../upstream/ext-apps/cohort-heatmap-server/server";
-import { registerApp as registerCustomerSegmentation } from "../upstream/ext-apps/customer-segmentation-server/server";
-import { registerApp as registerScenarioModeler } from "../upstream/ext-apps/scenario-modeler-server/server";
-import { registerApp as registerTranscript } from "../upstream/ext-apps/transcript-server/server";
+import { createRequire } from "node:module";
+import { registerApp as registerGetTime } from "../upstream/ext-apps/basic-server-react/server.js";
+import { registerApp as registerBudgetAllocator } from "../upstream/ext-apps/budget-allocator-server/server.js";
+import { registerApp as registerCohortHeatmap } from "../upstream/ext-apps/cohort-heatmap-server/server.js";
+import { registerApp as registerCustomerSegmentation } from "../upstream/ext-apps/customer-segmentation-server/server.js";
+import { registerApp as registerScenarioModeler } from "../upstream/ext-apps/scenario-modeler-server/server.js";
+import { registerApp as registerTranscript } from "../upstream/ext-apps/transcript-server/server.js";
 
 export interface GalleryAppLimits {
   requestBytes: number;
@@ -25,6 +25,35 @@ export interface GalleryAppLimits {
   timeoutMs: number;
   concurrentRequests: number;
 }
+
+interface RegistryDataApp {
+  slug: string;
+  displayName: string;
+  serverName: string;
+  serverVersion: string;
+  summary: string;
+  interaction: string;
+  toolName: string;
+  resourceUri: string;
+  samplePrompt: string;
+  dataNote: string;
+  upstreamDir: string;
+  framework: string;
+  limits: GalleryAppLimits;
+  egressOrigins: string[];
+  enabledByDefault: boolean;
+}
+
+interface RegistryData {
+  upstreamRepository: string;
+  upstreamCommit: string;
+  apps: RegistryDataApp[];
+}
+
+// JSON is loaded through require so the transpiled output runs on Node's
+// native ESM loader without import attributes.
+const require = createRequire(import.meta.url);
+const registryData = require("./registry-data.json") as RegistryData;
 
 export interface GalleryAppRegistration {
   slug: string;

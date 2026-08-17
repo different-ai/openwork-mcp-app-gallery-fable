@@ -7,7 +7,7 @@ import {
   registerAppTool,
   RESOURCE_MIME_TYPE,
   readBundledAppHtml,
-} from "../../../src/mcp-app-adapter";
+} from "../../../src/mcp-app-adapter.js";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { CallToolResult, ReadResourceResult } from "@modelcontextprotocol/server";
 

@@ -29,7 +29,7 @@ import type {
   CallToolResult,
   ReadResourceResult,
 } from "@modelcontextprotocol/server";
-import { getBundledResourceHtml } from "./resources";
+import { getBundledResourceHtml } from "./resources.js";
 
 /** MCP Apps UI resource MIME type (must match the MCP Apps specification). */
 export const RESOURCE_MIME_TYPE = "text/html;profile=mcp-app";

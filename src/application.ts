@@ -4,10 +4,10 @@
  * `public/` are served by the Vercel CDN and never reach this function.
  */
 import { Hono } from "hono";
-import packageJson from "../package.json";
-import { endpointUrl, resolveBaseUrl } from "./base-url";
-import { handleMcpRequest } from "./gateway";
-import { logRecord } from "./observability";
+import { createRequire } from "node:module";
+import { endpointUrl, resolveBaseUrl } from "./base-url.js";
+import { handleMcpRequest } from "./gateway.js";
+import { logRecord } from "./observability.js";
 import {
   UPSTREAM_COMMIT,
   UPSTREAM_REPOSITORY,
@@ -16,8 +16,17 @@ import {
   registry,
   validateRegistry,
   type GalleryAppRegistration,
-} from "./registry";
-import { bundleMeta, loadResourceBundle } from "./resources";
+} from "./registry.js";
+import { bundleMeta, loadResourceBundle } from "./resources.js";
+
+// JSON is loaded through require so the transpiled output runs on Node's
+// native ESM loader without import attributes.
+const require = createRequire(import.meta.url);
+const packageJson = require("../package.json") as {
+  name: string;
+  version: string;
+  dependencies: Record<string, string>;
+};
 
 const NO_STORE = "private, no-store";
 

@@ -10,7 +10,9 @@
       "supportsCancellation": true
     }
   },
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -81,5 +83,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cleanUrls": true
 }
